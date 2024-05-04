@@ -7,7 +7,8 @@ void main() => runApp(
       MultiProvider(
         providers: [
           // Provider referente al tema global de la aplicación
-          ChangeNotifierProvider(create: (_) => ThemeProvider()),
+          // El parámmetro que recibe el constructor hace referencia al indicar de tema seleccionado por el usuario (este se puede encontrar almacenado en las preferencias del usuario)
+          ChangeNotifierProvider(create: (_) => ThemeProvider(1)),
         ],
         child: const ThemesApp(),
       ),
@@ -18,10 +19,13 @@ class ThemesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Themes App',
-      home: HomeScreen(),
+      home: const HomeScreen(),
+      theme: themeProvider.currentTheme,
     );
   }
 }
