@@ -27,15 +27,27 @@ class _Menu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Solicitar provider referente al tema de la aplicación
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Expanded(
       child: ListView.separated(
           padding: const EdgeInsets.symmetric(vertical: 4),
           physics: const BouncingScrollPhysics(),
           itemBuilder: (context, index) => ListTile(
-                title: Text(pageRoutes[index].title),
+                title: Text(
+                  pageRoutes[index].title,
+                  style: TextStyle(
+                    color: themeProvider.isDarkTheme
+                        ? themeProvider.configDark['titleTile']
+                        : themeProvider.configLight['titleTile'],
+                  ),
+                ),
                 leading: Icon(
                   pageRoutes[index].icon,
-                  color: const Color(0xff5F1A37),
+                  color: themeProvider.isDarkTheme
+                      ? themeProvider.configDark['iconColor']
+                      : themeProvider.configLight['iconColor'],
                 ),
                 trailing: const Icon(Icons.chevron_right_outlined),
                 onTap: () {
@@ -59,7 +71,9 @@ class _OptionTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Solicitar provider referente al tema de la aplicación
     final themeProvider = Provider.of<ThemeProvider>(context);
+
     return SafeArea(
       top: false,
       left: false,
@@ -72,7 +86,9 @@ class _OptionTheme extends StatelessWidget {
             subtitle: const Text('Aplicar modo oscuro'),
             trailing: Switch.adaptive(
               value: themeProvider.isDarkTheme,
-              activeColor: const Color(0xff5F1A37),
+              activeColor: themeProvider.isDarkTheme
+                  ? themeProvider.configDark['switchAColor']
+                  : themeProvider.configLight['switchAColor'],
               onChanged: (value) => themeProvider.isDarkTheme = value,
             ),
           ),
@@ -82,7 +98,9 @@ class _OptionTheme extends StatelessWidget {
             subtitle: const Text('Aplicar modo natural'),
             trailing: Switch.adaptive(
               value: themeProvider.isCustomTheme,
-              activeColor: const Color(0xff5F1A37),
+              activeColor: themeProvider.isDarkTheme
+                  ? themeProvider.configDark['switchAColor']
+                  : themeProvider.configLight['switchAColor'],
               onChanged: (value) => themeProvider.isCustomTheme = value,
             ),
           ),

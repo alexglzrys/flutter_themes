@@ -7,6 +7,20 @@ class ThemeProvider extends ChangeNotifier {
   bool _isCustomTheme = false;
   late ThemeData _currentTheme;
 
+  // Configuración personalizada para widgets en tema oscuro
+  final configDark = {
+    'iconColor': Colors.grey[500],
+    'titleTile': Colors.grey[500],
+    'switchAColor': Colors.teal,
+  };
+
+  // Configuración personalizada para widgets en tema claro
+  final configLight = {
+    'iconColor': const Color(0xff5F1A37),
+    'titleTile': Colors.grey[900],
+    'switchAColor': const Color(0xff5F1A37),
+  };
+
   // El constructor se encargará de establecer el tema al momento de arrancar la aplicación
   ThemeProvider(int selectedTheme) {
     switch (selectedTheme) {
