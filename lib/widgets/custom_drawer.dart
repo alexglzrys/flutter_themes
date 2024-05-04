@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:themes_flutter_app/routes/routes.dart';
 
 // Drawer personalizado
 class CustomDrawer extends StatelessWidget {
@@ -10,10 +11,42 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         children: [
           _Header(),
-          Spacer(),
+          _Menu(),
           _OptionTheme(),
         ],
       ),
+    );
+  }
+}
+
+// Sección de navegación
+class _Menu extends StatelessWidget {
+  const _Menu();
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ListView.separated(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          physics: const BouncingScrollPhysics(),
+          itemBuilder: (context, index) => ListTile(
+                title: Text(pageRoutes[index].title),
+                leading: Icon(
+                  pageRoutes[index].icon,
+                  color: const Color(0xff5F1A37),
+                ),
+                trailing: const Icon(Icons.chevron_right_outlined),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => pageRoutes[index].screen,
+                    ),
+                  );
+                },
+              ),
+          separatorBuilder: (context, index) => const Divider(height: 8),
+          itemCount: pageRoutes.length),
     );
   }
 }
