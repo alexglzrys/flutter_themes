@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:themes_flutter_app/providers/theme_provider.dart';
 import 'package:themes_flutter_app/routes/routes.dart';
 
 // Drawer personalizado
@@ -45,7 +47,7 @@ class _Menu extends StatelessWidget {
                   );
                 },
               ),
-          separatorBuilder: (context, index) => const Divider(height: 8),
+          separatorBuilder: (context, index) => const Divider(height: 6),
           itemCount: pageRoutes.length),
     );
   }
@@ -57,40 +59,35 @@ class _OptionTheme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          visualDensity: VisualDensity.compact,
-          title: const Text('Modo Light'),
-          subtitle: const Text('Aplicar modo claro'),
-          trailing: Switch.adaptive(
-            value: true,
-            activeColor: const Color(0xff5F1A37),
-            onChanged: (value) {},
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return SafeArea(
+      top: false,
+      left: false,
+      right: false,
+      child: Column(
+        children: [
+          ListTile(
+            visualDensity: VisualDensity.compact,
+            title: const Text('Modo Dark'),
+            subtitle: const Text('Aplicar modo oscuro'),
+            trailing: Switch.adaptive(
+              value: themeProvider.isDarkTheme,
+              activeColor: const Color(0xff5F1A37),
+              onChanged: (value) => themeProvider.isDarkTheme = value,
+            ),
           ),
-        ),
-        ListTile(
-          visualDensity: VisualDensity.compact,
-          //dense: true,
-          title: const Text('Modo Dark'),
-          subtitle: const Text('Aplicar modo oscuro'),
-          trailing: Switch.adaptive(
-            value: true,
-            activeColor: const Color(0xff5F1A37),
-            onChanged: (value) {},
+          ListTile(
+            visualDensity: VisualDensity.compact,
+            title: const Text('Modo Personalizado'),
+            subtitle: const Text('Aplicar modo natural'),
+            trailing: Switch.adaptive(
+              value: themeProvider.isCustomTheme,
+              activeColor: const Color(0xff5F1A37),
+              onChanged: (value) => themeProvider.isCustomTheme = value,
+            ),
           ),
-        ),
-        ListTile(
-          //dense: true,
-          visualDensity: VisualDensity.compact,
-          title: const Text('Modo Personalizado'),
-          trailing: Switch.adaptive(
-            value: true,
-            activeColor: const Color(0xff5F1A37),
-            onChanged: (value) {},
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
